@@ -127,10 +127,10 @@ if RequiredScript then
     end
 end
 
-local isrrf = math.random(1, 4)
 function LevelsTweakData:init()
     self:clone_init()
     
+    russianadder.isrrf = math.random(1, 4)
     russianadder:Load()
     russianadder.levels = {}
     
@@ -150,7 +150,7 @@ function LevelsTweakData:init()
     
     for _ , level_id in pairs( self._level_index ) do
         if russianadder and russianadder.options and russianadder.options[ level_id ] and russianadder.options[ level_id ] ~= nil then
-            if isrrf <= russianadder.options[level_id] then
+            if russianadder.isrrf <= russianadder.options[level_id] then
                 self[level_id].ai_group_type = self.LevelType.Russia
             end
         end

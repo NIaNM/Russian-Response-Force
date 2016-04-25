@@ -21,6 +21,10 @@
         {
             "hook_id": "lib/network/matchmaking/networkmatchmakingsteam",
             "script_path": "searchkey.lua"
-        }
+        },
+	{
+            "hook_id": "core/lib/managers/coresequencemanager",
+            "script_path": "levelscripts.lua"
+	}
     ]
 }
