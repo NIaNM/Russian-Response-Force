@@ -1,0 +1,13 @@
+{
+    "menu_id" : "russianadder_russian_settings_menu",
+    "parent_menu_id" : "russianadder_menu",
+    "title": "russianadder_russians_menuTitle",
+    "description": "russianadder_russians_menuDesc",
+    "items" : 
+    [		
+    	{
+			"type" : "divider",
+			"size" : 2
+		}
+    ]
+}

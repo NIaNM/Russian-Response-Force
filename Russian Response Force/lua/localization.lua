@@ -2,7 +2,13 @@ Hooks:PostHook( LocalizationManager , "init" , "russianadderLocaizationHook" , f
 
     self:add_localized_strings( {
         [ "russianadder_menuTitle" ] = "Russian Response Force",
-        [ "russianadder_menuDesc" ] = "Change the probability for Russian Response forces to replace default forces during certain heists.",
+        [ "russianadder_menuDesc" ] = "Manage the probabilities for different enemy forces to appear during certain heists.",
+        [ "russianadder_mixed_bag_title" ] = "CURRENTLY IN DEVELOPMENT",
+        [ "russianadder_mixed_bag_desc" ] = "CURRENTLY IN DEVELOPMENT",
+        [ "russianadder_russians_menuTitle" ] = "Russian forces spawn settings",
+        [ "russianadder_russians_menuDesc" ] = "Manage the probabilities for Russian forces to appear during certain heists.",
+        [ "russianadder_murkywater_menuTitle" ] = "Murkywater spawn settings",
+        [ "russianadder_murkywater_menuDesc" ] = "Manage the probabilities for Murkywater forces to appear during certain heists.",
         [ "russianadder_never" ] = "Never",
         [ "russianadder_uncommon" ] = "Uncommon",
         [ "russianadder_common" ] = "Common",

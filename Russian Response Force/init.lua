@@ -5,7 +5,7 @@ LevelsTweakData.LevelType.Russia = "russia"
 
 if not _G.russianadder then
     _G.russianadder = {}
-    russianadder.mod_path = ModPath
+    russianadder._mod_path = ModPath
     russianadder._data_path = SavePath .. "russianadder.txt"
     russianadder.options = {}
     russianadder.main_menu = "russianadder_menu"
@@ -27,50 +27,33 @@ function russianadder:Load()
     end
 end
 
-Hooks:Add( "LocalizationManagerPostInit" , "russianadderLocalization" , function( self )
+Hooks:Add( "MenuManagerInitialize" , "russianadder_menuManagerInitialize" , function( menu_manager )
     
-    self:add_localized_strings( {
-        [ "russianadder_menuTitle" ] = "Russian Response Force",
-        [ "russianadder_menuDesc" ] = "Change the probability for Russian Response forces to replace default forces during certain heists.",
-        
-        [ "russianadder_never" ] = "Never",
-        [ "russianadder_uncommon" ] = "Uncommon",
-        [ "russianadder_common" ] = "Common",
-        [ "russianadder_very_common" ] = "Very Common",
-        [ "russianadder_always" ] = "Always"
-    } )
-
-    for level_id , text in pairs( russianadder.levels ) do
-        self._platform = "WIN32"
-        self:add_localized_strings( {
-            [ "russianadder_" .. level_id ] = self:text( text ) .. ( ( string.find( tweak_data.levels[ level_id ].name_id , "2" ) and " (2)" or string.find( tweak_data.levels[ level_id ].name_id , "3" ) and " (3)" ) or "" ) or "??",
-            [ "russianadderDesc_" .. level_id ] = "Change the RRF probability setting for " .. ( self:text( text ) .. ( ( string.find( tweak_data.levels[ level_id ].name_id , "2" ) and " (2)" or string.find( tweak_data.levels[ level_id ].name_id , "3" ) and " (3)" ) or "" ) or "??" )
-        } )
-    end
-
-end )
-
-Hooks:Add( "MenuManagerSetupCustomMenus" , "russianadderSetupMenu" , function( self , nodes )
+    MenuCallbackHandler.callback_mixed_bag_toggle = function(self, item)
+		russianadder.options.mixedBag = item:value()
+		russianadder:Save()
+	end
     
-    MenuHelper:NewMenu( russianadder.main_menu )
+    russianadder:Load()    
+	MenuHelper:LoadFromJsonFile(russianadder._mod_path .. "menu/menu.json", russianadder, russianadder.options)
+    MenuHelper:LoadFromJsonFile(russianadder._mod_path .. "menu/russians.json", russianadder, russianadder.options)
     
 end )
 
-Hooks:Add( "MenuManagerPopulateCustomMenus" , "russianadderCallbackFunctions" , function( self , nodes )
+
+Hooks:Add( "MenuManagerPopulateCustomMenus" , "russianadderMenuPopulator" , function( self , nodes )
     
     if not russianadder or russianadder and not russianadder.levels then return end
+        
+    russianadder:Load() 
     
     for level_id , _ in pairs( russianadder.levels ) do
-    
-        MenuCallbackHandler[ "russianadderClbk_" .. level_id ] = function( self, item )
-        
-            russianadder.options[ level_id ] = item:value()
-            russianadder:Save()
-            
-        end
+            MenuCallbackHandler[ "russianadderClbk_" .. level_id ] = function( self, item )
+                russianadder.options[ level_id ] = item:value()
+                russianadder:Save()
+            end
     
         MenuHelper:AddMultipleChoice( {
-        
             id             = "russianadderID_" .. level_id,
             title         = "russianadder_" .. level_id,
             desc         = "russianadderDesc_" .. level_id,
@@ -82,20 +65,10 @@ Hooks:Add( "MenuManagerPopulateCustomMenus" , "russianadderCallbackFunctions" , 
                             "russianadder_very_common",
                             "russianadder_always"
                           },
-            menu_id     = russianadder.main_menu,
-            value         = russianadder.options[ level_id ]
-            
+            menu_id     = "russianadder_russian_settings_menu",
+            value       = russianadder.options[ level_id ]
         } )
-        
     end
-
-end )
-
-Hooks:Add( "MenuManagerBuildCustomMenus" , "russianadderBuildMenu" , function( self , nodes )
-
-    nodes[ russianadder.main_menu ] = MenuHelper:BuildMenu( russianadder.main_menu )
-    MenuHelper:AddMenuItem( MenuHelper.menus.lua_mod_options_menu , russianadder.main_menu , "russianadder_menuTitle" , "russianadder_menuDesc" )
-    
 end )
 
 russianadder.dofiles = {
@@ -103,7 +76,8 @@ russianadder.dofiles = {
 }
 
 russianadder.hook_files = {
-    ["lib/managers/localizationmanager"] = "LocalizationManager.lua"
+    ["lib/managers/localizationmanager"] = "lua/localization.lua",
+    ["lib/network/matchmaking/networkmatchmakingsteam"] = "lua/searchkey.lua"
 }
 
 if not russianadder.setup then

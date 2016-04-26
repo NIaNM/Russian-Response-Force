@@ -1,0 +1,13 @@
+{
+    "menu_id" : "russianadder_murkywater_settings_menu",
+    "parent_menu_id" : "russianadder_menu",
+    "title": "russianadder_murkywater_menuTitle",
+    "description": "russianadder_murkywater_menuDesc",
+    "items" : 
+    [		
+    	{
+			"type" : "divider",
+			"size" : 2
+		}
+    ]
+}

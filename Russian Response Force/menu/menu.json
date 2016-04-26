@@ -1,0 +1,18 @@
+{
+    "menu_id" : "russianadder_menu",
+    "parent_menu_id" : "lua_mod_options_menu",
+    "title": "russianadder_menuTitle",
+    "description": "russianadder_menuDesc",
+    "items" : 
+    [	
+        {
+            "type" : "toggle",
+            "id" : "mixed_bag_toggle",
+            "title" : "russianadder_mixed_bag_title",
+            "description" : "russianadder_mixed_bag_desc",
+            "callback" : "callback_mixed_bag_toggle",
+            "value" : "mixedBag",
+            "default_value" : false
+        }
+    ]
+}
